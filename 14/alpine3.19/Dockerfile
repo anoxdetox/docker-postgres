@@ -8,9 +8,11 @@ FROM alpine:3.19
 
 # 70 is the standard uid/gid for "postgres" in Alpine
 # https://git.alpinelinux.org/aports/tree/main/postgresql/postgresql.pre-install?h=3.12-stable
+# Also added environment arguments to customize them
+ARG POSTGRES_UID=70 POSTGRES_GID=70
 RUN set -eux; \
-	addgroup -g 70 -S postgres; \
-	adduser -u 70 -S -D -G postgres -H -h /var/lib/postgresql -s /bin/sh postgres; \
+	addgroup -g ${POSTGRES_GID} -S postgres; \
+	adduser -u ${POSTGRES_UID} -S -D -G postgres -H -h /var/lib/postgresql -s /bin/sh postgres; \
 	mkdir -p /var/lib/postgresql; \
 	chown -R postgres:postgres /var/lib/postgresql
 
